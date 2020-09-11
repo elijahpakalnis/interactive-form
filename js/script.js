@@ -70,4 +70,47 @@ const displayAvailableColors = option => {
   }
 }
 
+// == register for activities section ==
+const activities = document.querySelector('.activities');
+// label for total running cost for activities
+const totalAmountLabel = document.createElement('label');
+activities.appendChild(totalAmountLabel);
+
+// activities change event listener
+activities.addEventListener('change', (e) => {
+
+  const checkedActivity = e.target;
+  const checkedActivityTimetable = checkedActivity.getAttribute('data-day-and-time');
+  const activityList = document.querySelectorAll('.activities input');
+  
+  // variable for total running cost
+  let totalCost = 0;
+
+  // nested function to set activity availability
+  const setActivityAvailability = (activity, activityTimetable, setAvailability) => {
+    if(checkedActivityTimetable === activityTimetable 
+      && checkedActivity !== activity ){
+        // set & indicate to user whether activity is availabile
+        activity.disabled = setAvailability; 
+        activity.parentNode.style.textDecoration = setAvailability ? 'line-through' : 'none';
+      }
+  }
+  
+  // loop through each activity
+  for(let i = 0; i < activityList.length; i++) {
+    let activityTimetable = activityList[i].getAttribute('data-day-and-time');
+   
+    if(checkedActivity.checked) {
+      setActivityAvailability(activityList[i], activityTimetable, true);
+    }else{
+      setActivityAvailability(activityList[i], activityTimetable, false);
+    }
+    
+    // update total price of selected activities
+    if(activityList[i].checked) totalCost += parseInt(activityList[i].getAttribute('data-cost'));
+  }
+  // display total price
+  totalAmountLabel.textContent = `Total price: $${totalCost}`;
+});
+
 
