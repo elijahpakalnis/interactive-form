@@ -114,3 +114,39 @@ activities.addEventListener('change', (e) => {
 });
 
 
+// == Payment Info Section ==
+// references for payment section
+const paymentSection = document.getElementById('payment');
+const creditCardDiv = document.getElementById('credit-card');
+const paypalDiv = document.getElementById('paypal');
+const bitcoinDiv = document.getElementById('bitcoin');
+
+// select credit card as default option 
+const creditCardOption = document.querySelector('option[value="credit card');
+creditCardOption.selected = true;
+// disable select payment method option
+const selectPaymentMethodOption = document.querySelector('option[value="select method"');
+selectPaymentMethodOption.disabled = true;
+
+// hide the paypal and bitcoin payment info
+paypalDiv.hidden = true;
+bitcoinDiv.hidden = true;
+
+// change event listener on the paymentSection
+paymentSection.addEventListener('change', (e) => {
+  let option = e.target.value;
+  
+  // nested function to display selected payment option
+  const selectPaymentOption = (payment) => {
+    const paymentOptions = [creditCardDiv, paypalDiv, bitcoinDiv];
+    for(let i = 0; i < paymentOptions.length; i++) {
+      const payment = paymentOptions[i].getAttribute('id');
+      if(option === 'credit card') option = 'credit-card'; //rename so it matches id
+      // set hidden state to divs depending whether option matches payment
+      paymentOptions[i].hidden = option === payment ? false : true;
+    }
+  }
+  selectPaymentOption(option);
+});
+
+
