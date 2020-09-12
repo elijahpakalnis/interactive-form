@@ -11,13 +11,13 @@
 body,
 input,
 button {
-	font-family: 'Nunito', sans-serif;
+	font-family: 'Montserrat', Helvetica, sans-serif;
 }
 
 body {
   font: 1em/1.5;
-  color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+  color: white;
+	background-image: url("../img/background.jpg");
 }
 
 header {
@@ -40,8 +40,8 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.6);
+	background: #282828;
+	border: 2px solid #615a6a;
 	border-radius: 3px;
 }
 
@@ -64,7 +64,7 @@ button {
 legend {
 	font-weight: bold;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
+	border-top: 2px solid #505050;
 	margin-bottom: 1.125em;
 }
 
@@ -75,7 +75,7 @@ legend {
 }
 
 label {
-	color: #000;
+	color: white;
 	display: block;
 	margin-bottom: .5em;
 }
@@ -88,16 +88,16 @@ select {
 input {
 	font-size: 1em;
 	font-weight: 500;
-	padding: .8em;
+	padding: .5em;
 	background: #e9f6fb;
-	border: 2px solid rgb(111, 157, 220);
+	border: 3px solid rgb(75, 75, 75);
 	border-radius: 3px;
 	outline: none;
 }
 
 input:focus {
 	background: #fff;
-	border-color: #5e97b0;
+	border-color: #82f0ff;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -109,7 +109,7 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: #1db954;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 	border: 2px solid black;
@@ -118,7 +118,7 @@ button {
 }
 
 button:hover {
-	background: #6F9DDC;
+	background: #21d35f;
 }
 
 input, 
@@ -144,7 +144,7 @@ option {
 .shirt-box {
 	width: 100%;
 	padding: 5px;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.065);
 	border-radius: 4px;
 }
 
@@ -162,7 +162,7 @@ option {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	padding: 5px;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.065);
 	border-radius: 4px;
 }
 
