@@ -70,8 +70,10 @@ const displayAvailableColors = option => {
   }
 }
 
-// == register for activities section ==
+// == Register For Activities Section ==
 const activities = document.querySelector('.activities');
+const activityList = document.querySelectorAll('.activities input');
+  
 // label for total running cost for activities
 const totalAmountLabel = document.createElement('label');
 activities.appendChild(totalAmountLabel);
@@ -81,8 +83,7 @@ activities.addEventListener('change', (e) => {
 
   const checkedActivity = e.target;
   const checkedActivityTimetable = checkedActivity.getAttribute('data-day-and-time');
-  const activityList = document.querySelectorAll('.activities input');
-  
+
   // variable for total running cost
   let totalCost = 0;
 
@@ -149,4 +150,80 @@ paymentSection.addEventListener('change', (e) => {
   selectPaymentOption(option);
 });
 
+// == Form Validation ==
+// references for validation
+const emailField = document.getElementById('mail');
+const creditCardNumber = document.getElementById('cc-num');
+const zipcode = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
+const form = document.querySelector('form');
+
+// == Form Validation Functions ==
+// function to validate name field isn't blank
+const validateName = (input) =>{
+  return /\w+/.test(input);
+}
+
+// function to validate correctly formatted e-mail address
+const validateEmail = (input) => {
+  const emailRegex = /^[^@]+@+[^.@]+\.\w+$/m;
+  return emailRegex.test(input);
+}
+
+// function to validate atleast one register activity checked
+const validateActivityRegistration = () => {
+  let registeredCount = 0;
+  activityList.forEach(activity => activity.checked ? registeredCount++ : '');
+  return registeredCount >= 1;
+}
+
+// function to validate credit card number, accept between 13 and 16 digits
+const validateCreditCardNumber = (input) => {
+  const creditCardRegex = /^\d{13,16}$/m;
+  return creditCardRegex.test(input);
+}
+
+// function to validate zip code exactly 5 digits long
+const validateZipCode = (input) => {
+  const zipCodeRegex = /^\d{5}$/;
+  return zipCodeRegex.test(input);
+}
+
+// function to validate CVV exactly 3 digits long
+const validateCVV = (input) => {
+  const cvvRegex = /^\d{3}$/;
+  return cvvRegex.test(input);
+}
+
+// function to validate user entered data
+const validateInfoRegistration = () => {
+  if(validateName(nameField.value)
+  && validateEmail(emailField.value)
+  && validateActivityRegistration())
+    return true;
+}
+
+// function to validate credit card data
+const validateCreditCard = () => {
+  if(validateCreditCardNumber(creditCardNumber.value)
+  && validateZipCode(zipcode.value)
+  && validateCVV(cvv.value)) 
+    return true;
+}
+
+// == Form Validation Event Listeners ==
+// submit button for form
+form.addEventListener('submit', (e) => {
+  if(creditCardOption.selected) {
+    // validate user enterered info & credit card
+    if(!validateInfoRegistration() && !validateCreditCard()) {
+      e.preventDefault();
+    }
+  }else {
+    // validate user entered info only
+    if(!validateInfoRegistration()) {
+      e.preventDefault();
+    }
+  }
+});
 
