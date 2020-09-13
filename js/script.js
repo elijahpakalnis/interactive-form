@@ -19,18 +19,14 @@ titleField.addEventListener('change', e => {
 });
 
 // == T-Shirt Info ==
-// get reference to shirtcolor select options and select theme option from design select
-const shirtColors = document.querySelectorAll('#color option');
-const selectThemeOption = document.querySelector('option[value="select theme"]');
+// get reference to shirt-colors div and shirtcolor select options
+const shirtColorsDiv = document.getElementById('shirt-colors');
+const shirtColorsList = document.querySelectorAll('#color option');
 
-// initial select theme option should hide all colors
-if(selectThemeOption.selected) {
-  // hide all colors and leave out default option
-  shirtColors.forEach(color => {
-    if(!/Please select/.test(color.textContent)) 
-      color.hidden = true;
-  });
-}
+// remove (JS Puns shirt only) & (I ♥ JS shirt only) from options
+shirtColorsList.forEach(color => color.textContent = color.textContent.replace(/\(.+\)/, ''));
+// hide shirtColorsDiv initially
+shirtColorsDiv.hidden = true;
 
 //get reference to design select element
 const designSelectElement = document.getElementById('design');
@@ -38,32 +34,34 @@ const designSelectElement = document.getElementById('design');
 // onchange event listener for the design select element
 designSelectElement.addEventListener('change', (e) => {
   const option = e.target.value;
-  
+
   switch(option) {
     case 'js puns': 
-      displayAvailableColors(/JS Puns/);
+      displayAvailableColors(/Cornflower Blue|Dark Slate Grey|Gold/);
       break;
     case 'heart js':
-      displayAvailableColors(/I ♥ JS/);
+      displayAvailableColors(/Tomato|Steel Blue|Dim Grey/);
       break;
     default:
-      displayAvailableColors(/Please select/);
+      shirtColorsDiv.hidden = true;
   }
 });
 
 // function to display available colors for design option
 const displayAvailableColors = option => {
   // initially hide all color options
-  shirtColors.forEach(color => color.hidden = true);
+  shirtColorsList.forEach(color => color.hidden = true);
+  // ensure shirtColorsDiv is no longer hidden
+  shirtColorsDiv.hidden = false;
 
   let firstMatchFound = false;
-  for(let i = 0; i < shirtColors.length; i++) {
+  for(let i = 0; i < shirtColorsList.length; i++) {
     // check if option matches color
-    if(option.test(shirtColors[i].textContent)){
-      shirtColors[i].hidden = false; //display the color option
+    if(option.test(shirtColorsList[i].textContent)){
+      shirtColorsList[i].hidden = false; //display the color option
       // check for first match and set it to selected state
       if(!firstMatchFound) {
-        shirtColors[i].selected = true;
+        shirtColorsList[i].selected = true;
         firstMatchFound = true;
       }
     }
