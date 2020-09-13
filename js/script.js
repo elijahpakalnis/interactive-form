@@ -210,16 +210,26 @@ const validateCreditCard = () => {
 }
 
 const validate = (validator, inputReference) => {
-  const valid = validator(inputReference.value);
+  const input = inputReference.value;
+  const valid = validator(input);
   const inputID = inputReference.getAttribute('id');
   const validateMessage = document.getElementById(`form-${inputID}-error`);
   if(!valid) {
     validateMessage.style.display = 'block';
     inputReference.style.borderColor = 'red';
+    // conditional credit card error message
+    if(inputID === 'cc-num' && input.length > 0 ) {
+      validateMessage.textContent = 'Please enter a number that is between 13 and 16 digits long';
+    }else {
+      validateMessage.textContent = 'Please enter a valid credit card number';
+    }
   } else {
     validateMessage.style.display = 'none';
     inputReference.style.borderColor = '#1db954';
   }
+
+
+  
 }
 
 const validateAll = () => {
