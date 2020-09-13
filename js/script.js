@@ -199,7 +199,7 @@ const validateCVV = (input) => {
 const validateInfoRegistration = () => {
   if(validateName(nameField.value)
   && validateEmail(emailField.value)
-  && validateActivityRegistration())
+  && validateActivityRegistration()) 
     return true;
 }
 
@@ -211,18 +211,62 @@ const validateCreditCard = () => {
     return true;
 }
 
+const validate = (validator, inputReference) => {
+  const valid = validator(inputReference.value);
+  const inputID = inputReference.getAttribute('id');
+  const validateMessage = document.getElementById(`form-${inputID}-error`);
+  if(!valid) {
+    validateMessage.style.display = 'block';
+    inputReference.style.borderColor = 'red';
+  } else {
+    validateMessage.style.display = 'none';
+    inputReference.style.borderColor = '#1db954';
+  }
+}
+
+const validateAll = () => {
+  const activitiesValidationMessage = document.getElementById('form-activities-error');
+  activitiesValidationMessage.style.display = validateActivityRegistration() ? 'none' : 'block';
+
+  validate(validateName, nameField);
+  validate(validateEmail, emailField);
+  if(creditCardOption.selected) {
+    validate(validateCreditCardNumber,creditCardNumber);
+    validate(validateZipCode, zipcode);
+    validate(validateCVV, cvv);
+  }
+}
+
 // == Form Validation Event Listeners ==
+const createListener = (validator) => {
+  return e => {
+    validate(validator, e.target);
+  }
+}
+
+nameField.addEventListener('input', createListener(validateName));
+emailField.addEventListener('input', createListener(validateEmail));
+creditCardNumber.addEventListener('input', createListener(validateCreditCardNumber));
+zipcode.addEventListener('input', createListener(validateZipCode));
+cvv.addEventListener('input', createListener(validateCVV));
+activities.addEventListener('change', (e) => {
+  const activitiesValidationMessage = document.getElementById('form-activities-error');
+  activitiesValidationMessage.style.display = validateActivityRegistration() ? 'none' : 'block';
+});
+
 // submit button for form
 form.addEventListener('submit', (e) => {
   if(creditCardOption.selected) {
     // validate user enterered info & credit card
     if(!validateInfoRegistration() && !validateCreditCard()) {
       e.preventDefault();
-    }
+      validateAll();
+    } 
   }else {
     // validate user entered info only
     if(!validateInfoRegistration()) {
       e.preventDefault();
+      validateAll();
     }
   }
 });

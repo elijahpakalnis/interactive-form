@@ -82,7 +82,7 @@ label {
 
 input,
 select {
-	margin-bottom: 1.125em;	
+	margin-bottom: 1.25em;	
 }
 
 input {
@@ -97,7 +97,6 @@ input {
 
 input:focus {
 	background: #fff;
-	border-color: #82f0ff;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -166,6 +165,11 @@ option {
 	border-radius: 4px;
 }
 
+.validation-error {
+  display: none;
+  color: red;
+  margin-bottom: 20px;
+}
 /* ================================= 
   Helper Classes
 ==================================== */
