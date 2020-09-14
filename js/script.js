@@ -108,12 +108,7 @@ activities.addEventListener('change', (e) => {
     if(activityList[i].checked) totalCost += parseInt(activityList[i].getAttribute('data-cost'));
   }
   // display total price
-  console.log(totalCost);
-  if(totalCost > 0) {
-    totalAmountLabel.textContent = `Total price: $${totalCost}`;
-  }else{
-    totalAmountLabel.textContent = '';
-  }
+    totalAmountLabel.textContent = totalCost > 0 ? `Total price: $${totalCost}` : '';
 });
 
 
