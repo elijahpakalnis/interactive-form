@@ -2,7 +2,6 @@
 const nameField = document.getElementById('name');
 nameField.focus();
 
-
 // == Job Role ==
 // get reference to other-title input field and hide it
 const otherJobTitle = document.getElementById('other-title');
@@ -109,7 +108,12 @@ activities.addEventListener('change', (e) => {
     if(activityList[i].checked) totalCost += parseInt(activityList[i].getAttribute('data-cost'));
   }
   // display total price
-  totalAmountLabel.textContent = `Total price: $${totalCost}`;
+  console.log(totalCost);
+  if(totalCost > 0) {
+    totalAmountLabel.textContent = `Total price: $${totalCost}`;
+  }else{
+    totalAmountLabel.textContent = '';
+  }
 });
 
 
@@ -209,33 +213,46 @@ const validateCreditCard = () => {
     return true;
 }
 
+//function to validate user entered info
+const validateSubmittedData = () => {
+  // validate name, mail, activity
+  const validInfo = validateInfoRegistration();
+  // if credit card option selected
+  if(creditCardOption.selected){
+    // validate credit card too, and return result of both
+    const validCreditCard = validateCreditCard();
+    return validInfo && validCreditCard;
+  }
+  // otherwise just return main details
+  return validInfo;
+}
+
+// function to validate user input 
 const validate = (validator, inputReference) => {
   const input = inputReference.value;
   const valid = validator(input);
   const inputID = inputReference.getAttribute('id');
   const validateMessage = document.getElementById(`form-${inputID}-error`);
+
   if(!valid) {
     validateMessage.style.display = 'block';
     inputReference.style.borderColor = 'red';
     // conditional credit card error message
     if(inputID === 'cc-num' && input.length > 0 ) {
       validateMessage.textContent = 'Please enter a number that is between 13 and 16 digits long';
-    }else {
+    }else if(inputID === 'cc-num' && input.length === 0) {
       validateMessage.textContent = 'Please enter a valid credit card number';
     }
   } else {
     validateMessage.style.display = 'none';
     inputReference.style.borderColor = '#1db954';
   }
-
-
-  
 }
 
-const validateAll = () => {
-  const activitiesValidationMessage = document.getElementById('form-activities-error');
+// function to run all validators for the form
+const activitiesValidationMessage = document.getElementById('form-activities-error');
+const validateEverything = () => {
   activitiesValidationMessage.style.display = validateActivityRegistration() ? 'none' : 'block';
-
   validate(validateName, nameField);
   validate(validateEmail, emailField);
   if(creditCardOption.selected) {
@@ -252,30 +269,24 @@ const createListener = (validator) => {
   }
 }
 
+// form input event listeners
 nameField.addEventListener('input', createListener(validateName));
 emailField.addEventListener('input', createListener(validateEmail));
 creditCardNumber.addEventListener('input', createListener(validateCreditCardNumber));
 zipcode.addEventListener('input', createListener(validateZipCode));
 cvv.addEventListener('input', createListener(validateCVV));
+
+// activities event listener
 activities.addEventListener('change', (e) => {
-  const activitiesValidationMessage = document.getElementById('form-activities-error');
+  // validates it and either displays the error message or hides it
   activitiesValidationMessage.style.display = validateActivityRegistration() ? 'none' : 'block';
 });
 
-// submit button for form
+// submit event listener for button for the form
 form.addEventListener('submit', (e) => {
-  if(creditCardOption.selected) {
-    // validate user enterered info & credit card
-    if(!validateInfoRegistration() && !validateCreditCard()) {
-      e.preventDefault();
-      validateAll();
-    } 
-  }else {
-    // validate user entered info only
-    if(!validateInfoRegistration()) {
-      e.preventDefault();
-      validateAll();
-    }
+  // if submitted data not valid prevent submittion and validate everything to view validation messages
+  if(!validateSubmittedData()) {
+    e.preventDefault();
+    validateEverything();
   }
 });
-
