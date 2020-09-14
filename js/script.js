@@ -10,11 +10,7 @@ otherJobTitle.hidden = true;
 const titleField = document.getElementById('title');
 titleField.addEventListener('change', e => {
   // if other then display input for user job title, otherwise ensure it's hidden
-  if(e.target.value === 'other') {
-    otherJobTitle.hidden = false;
-  }else {
-    otherJobTitle.hidden = true;
-  }
+  otherJobTitle.hidden = e.target.value === 'other' ? false : true;
 });
 
 // == T-Shirt Info ==
@@ -110,7 +106,6 @@ activities.addEventListener('change', (e) => {
   // display total price
     totalAmountLabel.textContent = totalCost > 0 ? `Total price: $${totalCost}` : '';
 });
-
 
 // == Payment Info Section ==
 // references for payment section
