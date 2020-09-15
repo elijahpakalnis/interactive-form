@@ -29,7 +29,6 @@ const designSelectElement = document.getElementById('design');
 // onchange event listener for the design select element
 designSelectElement.addEventListener('change', (e) => {
   const option = e.target.value;
-
   switch(option) {
     case 'js puns': 
       displayAvailableColors(/Cornflower Blue|Dark Slate Grey|Gold/);
@@ -73,7 +72,6 @@ activities.appendChild(totalAmountLabel);
 
 // activities change event listener
 activities.addEventListener('change', (e) => {
-
   const checkedActivity = e.target;
   const checkedActivityTimetable = checkedActivity.getAttribute('data-day-and-time');
 
@@ -163,9 +161,11 @@ const validateEmail = (input) => {
 }
 
 // function to validate atleast one register activity checked
+const activitiesValidationMessage = document.getElementById('form-activities-error');
 const validateActivityRegistration = () => {
   let registeredCount = 0;
   activityList.forEach(activity => activity.checked ? registeredCount++ : '');
+  activitiesValidationMessage.style.display = registeredCount >= 1 ? 'none' : 'block';
   return registeredCount >= 1;
 }
 
@@ -203,7 +203,7 @@ const validateCreditCard = () => {
     return true;
 }
 
-//function to validate user entered info
+// function to validate user entered info
 const validateSubmittedData = () => {
   // validate name, mail, activity
   const validInfo = validateInfoRegistration();
@@ -224,6 +224,7 @@ const validate = (validator, inputReference) => {
   const inputID = inputReference.getAttribute('id');
   const validateMessage = document.getElementById(`form-${inputID}-error`);
 
+  // if not valid, display validation message and add red border to input field
   if(!valid) {
     validateMessage.style.display = 'block';
     inputReference.style.borderColor = 'red';
@@ -234,15 +235,15 @@ const validate = (validator, inputReference) => {
       validateMessage.textContent = 'Please enter a valid credit card number';
     }
   } else {
+    // otherwise hide the validation message and add green border to input field
     validateMessage.style.display = 'none';
     inputReference.style.borderColor = '#1db954';
   }
 }
 
 // function to run all validators for the form
-const activitiesValidationMessage = document.getElementById('form-activities-error');
 const validateEverything = () => {
-  activitiesValidationMessage.style.display = validateActivityRegistration() ? 'none' : 'block';
+  validateActivityRegistration();
   validate(validateName, nameField);
   validate(validateEmail, emailField);
   if(creditCardOption.selected) {
@@ -269,7 +270,7 @@ cvv.addEventListener('input', createListener(validateCVV));
 // activities event listener
 activities.addEventListener('change', (e) => {
   // validates it and either displays the error message or hides it
-  activitiesValidationMessage.style.display = validateActivityRegistration() ? 'none' : 'block';
+  validateActivityRegistration();
 });
 
 // submit event listener for button for the form
